@@ -1,22 +1,23 @@
-<!-- Archivo: templates/home.html -->
 {% extends "base.html" %}
-
 {% block content %}
-
-{% include 'partials/home_styles.html' %}
-
-{% include 'partials/home_content.html' %}
-
-{% include 'partials/home_modals.html' %}
-
-{% include 'partials/home_scripts.html' %}
-
-{% include 'partials/home_about_modal.html' %}
-
-{% include 'partials/home_music_player.html' %}
-
-{% include 'partials/home_music_scripts.html' %}
-
-{% include 'partials/divisas_modal.html' %}
-
+<div class="container py-5 text-center" style="min-height:80vh;display:flex;align-items:center;justify-content:center;">
+    <div>
+        {% if user %}
+            <h1 class="fw-bold text-success mb-3"><i class="bi bi-check-circle-fill"></i> Conectado satisfactoriamente</h1>
+            <p class="lead">Usuario: <strong class="text-dark">{{ user.name }} {{ user.last_name_1 }}</strong></p>
+            <p class="text-secondary mb-1">{{ user.email }}</p>
+            <p class="badge rounded-pill bg-warning text-dark mb-3">Rol: {{ user.role }}</p>
+            <div class="d-flex gap-2 justify-content-center">
+                <a href="{{ url_for('main.logout') }}" class="btn btn-outline-danger rounded-pill px-4">Cerrar sesión</a>
+            </div>
+        {% else %}
+            <h1 class="fw-bold text-orange mb-3">Bienvenido</h1>
+            <p class="lead text-secondary mb-4">Plantilla de conectividad lista para personalizar.</p>
+            <div class="d-flex gap-2 justify-content-center">
+                <a href="{{ url_for('main.login_page') }}" class="btn btn-orange rounded-pill px-4">Ingresar</a>
+                <a href="{{ url_for('main.register_page') }}" class="btn btn-outline-primary rounded-pill px-4">Registrarse</a>
+            </div>
+        {% endif %}
+    </div>
+</div>
 {% endblock %}

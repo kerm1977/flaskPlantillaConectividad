@@ -9,13 +9,11 @@ from routes import bp
 
 @bp.route('/')
 def home():
-    notifications = Notification.query.all()
-    today = date.today()
-    birthday_hikers = Hiker.query.filter(
-        func.strftime('%m-%d', Hiker.fecha_nacimiento) == today.strftime('%m-%d'),
-        Hiker.fecha_nacimiento != None
-    ).all()
-    return render_template('home.html', notifications=notifications, birthday_hikers=birthday_hikers)
+    from models import User
+    user = None
+    if 'user_id' in session:
+        user = User.query.get(session['user_id'])
+    return render_template('home.html', user=user)
 
 
 @bp.route('/api/eventos-activos')

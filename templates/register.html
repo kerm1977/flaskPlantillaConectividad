@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-4">
+            <div class="card border-0 shadow-sm p-4" style="border-radius:1.5rem;">
+                <h2 class="fw-bold text-center text-orange mb-4">Crear cuenta</h2>
+                <form id="registerForm">
+                    <input type="text" id="name" class="form-control rounded-3 mb-2" placeholder="Nombre" required>
+                    <input type="text" id="last_name_1" class="form-control rounded-3 mb-2" placeholder="1er Apellido" required>
+                    <input type="text" id="last_name_2" class="form-control rounded-3 mb-2" placeholder="2do Apellido" required>
+                    <input type="email" id="email" class="form-control rounded-3 mb-2" placeholder="Email" required>
+                    <input type="password" id="password" class="form-control rounded-3 mb-3" placeholder="Contraseña" required>
+                    <button type="submit" class="btn btn-orange w-100 rounded-pill fw-bold">Registrarse</button>
+                </form>
+                <p id="registerMsg" class="text-danger small text-center mt-3 mb-0"></p>
+                <p class="text-center small mt-3 mb-0">
+                    ¿Ya tienes cuenta? <a href="{{ url_for('main.login_page') }}" class="text-decoration-none fw-bold">Ingresar</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+document.getElementById('registerForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const res = await fetch('/api/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            name: document.getElementById('name').value.trim(),
+            last_name_1: document.getElementById('last_name_1').value.trim(),
+            last_name_2: document.getElementById('last_name_2').value.trim(),
+            email: document.getElementById('email').value.trim().toLowerCase(),
+            password: document.getElementById('password').value
+        })
+    });
+    const data = await res.json();
+    if (data.success) window.location.href = '/';
+    else document.getElementById('registerMsg').textContent = data.error || 'Error al registrarse';
+});
+</script>
+{% endblock %}

@@ -11,6 +11,20 @@ from routes import bp, allowed_file, ALLOWED_IMAGE_EXTENSIONS
 from security import check_rate_limit, validate_password_strength
 
 
+@bp.route('/login')
+def login_page():
+    if 'user_id' in session:
+        return redirect(url_for('main.home'))
+    return render_template('login.html')
+
+
+@bp.route('/register')
+def register_page():
+    if 'user_id' in session:
+        return redirect(url_for('main.home'))
+    return render_template('register.html')
+
+
 @bp.route('/api/login', methods=['POST'])
 def login():
     data = request.json
