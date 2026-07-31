@@ -1,5 +1,6 @@
 import os
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.pool import QueuePool
 
 db = SQLAlchemy()
 
@@ -24,4 +25,14 @@ def configure_db_uri():
     else:
         # Entorno local por defecto (o Fallback seguro en la nube) -> SQLite
         basedir = os.path.abspath(os.path.dirname(__file__))
-        return 'sqlite:///' + os.path.join(basedir, 'local_app.db')
+        return 'sqlite:///' + os.path.join(basedir, 'base_app.db')
+
+def configure_db_engine_options():
+    """Configuración de rendimiento para SQLite: pool, hilos y conexión compartida."""
+    return {
+        'poolclass': QueuePool,
+        'pool_size': 5,
+        'max_overflow': 10,
+        'pool_recycle': 3600,
+        'connect_args': {'check_same_thread': False}
+    }

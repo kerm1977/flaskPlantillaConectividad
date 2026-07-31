@@ -2,11 +2,53 @@
 import os
 from flask import Flask
 from config import Config
-from db import db, configure_db_uri
+from db import db, configure_db_uri, configure_db_engine_options
 from routes import bp, inject_site_content
 from users import inject_superusers
 
 import models_core, models_forms, models_rifas, models_publicaciones  # Cargar todos los modelos
+
+
+def _optimize_sqlite():
+    """Activa WAL, caché y otras optimizaciones de SQLite para alto rendimiento."""
+    try:
+        conn = db.engine.raw_connection()
+        cursor = conn.cursor()
+        cursor.execute("PRAGMA journal_mode=WAL")
+        cursor.execute("PRAGMA synchronous=NORMAL")
+        cursor.execute("PRAGMA cache_size=-64000")
+        cursor.execute("PRAGMA temp_store=MEMORY")
+        cursor.execute("PRAGMA mmap_size=268435456")
+        cursor.execute("PRAGMA foreign_keys=ON")
+        conn.commit()
+        conn.close()
+        print("[DB] SQLite optimizado: WAL, cache, mmap activados.")
+    except Exception as e:
+        print(f"[DB] Error optimizando SQLite: {e}")
+
+
+def _create_indexes():
+    """Crea índices útiles sobre tablas frecuentes."""
+    try:
+        conn = db.engine.raw_connection()
+        cursor = conn.cursor()
+        indexes = [
+            ("idx_user_email", "user", "email"),
+            ("idx_user_role", "user", "role"),
+            ("idx_event_slug", "event", "slug"),
+            ("idx_event_fecha", "event", "fecha"),
+            ("idx_form_slug", "form", "slug"),
+            ("idx_form_response_form_id", "form_response", "form_id"),
+            ("idx_raffle_slug", "raffle", "slug"),
+            ("idx_hiker_cedula", "hiker", "cedula"),
+        ]
+        for name, table, column in indexes:
+            cursor.execute(f"CREATE INDEX IF NOT EXISTS {name} ON {table} ({column})")
+        conn.commit()
+        conn.close()
+        print("[DB] Índices creados/verificados.")
+    except Exception as e:
+        print(f"[DB] Error creando índices: {e}")
 
 def _migrate_raffle_selection():
     """Agrega columnas faltantes en raffle_selection sin borrar datos existentes."""
@@ -195,6 +237,7 @@ def create_app():
     
     # Configuración inteligente de Base de Datos
     app.config['SQLALCHEMY_DATABASE_URI'] = configure_db_uri()
+    app.config['SQLALCHEMY_ENGINE_OPTIONS'] = configure_db_engine_options()
 
     # Inicializar la base de datos con la app
     db.init_app(app)
@@ -205,8 +248,12 @@ def create_app():
 
     # Crear tablas e inyectar usuarios dentro del contexto de la aplicación
     with app.app_context():
-        # Crea el archivo local_app.db y todas sus tablas si no existen
+        # Crea el archivo base_app.db y todas sus tablas si no existen
         db.create_all()
+
+        # Optimizar SQLite y crear índices
+        _optimize_sqlite()
+        _create_indexes()
         
         # Migración automática: agrega columnas faltantes en raffle_selection
         _migrate_raffle_selection()
