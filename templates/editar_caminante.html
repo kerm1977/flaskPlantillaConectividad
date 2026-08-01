@@ -1,60 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-<style>
-    /* Diseño Minimalista y Plano - Cero sombras espantosas, cero bordes toscos */
-    .modal-glass-transparent {
-        background: rgba(255, 255, 255, 0.9) !important;
-        border-radius: 1.5rem;
-        border: none;
-        box-shadow: none; 
-    }
-
-    .form-label-huge {
-        font-size: 1.05rem !important;
-        font-weight: 600 !important;
-        color: #495057 !important;
-        margin-bottom: 0.4rem;
-        display: block;
-    }
-    
-    .input-huge {
-        font-size: 1.15rem !important;
-        padding: 0.8rem 1rem !important;
-        border: 1px solid #ced4da !important;
-        border-radius: 1rem !important;
-        color: #212529 !important;
-        background-color: #f8f9fa !important;
-        transition: border-color 0.2s ease;
-        box-shadow: none !important;
-    }
-    .input-huge:focus {
-        border-color: #ff8c00 !important;
-        background-color: #fff !important;
-        box-shadow: none !important;
-        outline: none;
-    }
-    
-    .btn-huge {
-        font-size: 1.2rem !important;
-        padding: 1rem !important;
-        border-radius: 1rem !important;
-        font-weight: 700 !important;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-        box-shadow: none !important;
-        border: none;
-    }
-
-    .section-title {
-        font-size: 1.3rem;
-        font-weight: 800;
-        color: #1a2a40;
-        border-bottom: none;
-        margin-top: 2rem;
-        margin-bottom: 1rem;
-    }
-</style>
+{% include 'partials/editar_caminante_styles.html' %}
 
 <div class="container py-4 animate__animated animate__fadeIn">
     <div class="row justify-content-center">
