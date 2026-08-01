@@ -1,0 +1,33 @@
+function resetForNewEntry() {
+    ['pf_nombre','pf_cedula','pf_email','pf_telefono','pf_edad','pf_fecha','pf_tipo_sangre','pf_alergias','pf_enfermedades','pf_contacto_nombre','pf_contacto_telefono','pf_pasaporte','pf_fecha_nacimiento_dia','pf_fecha_nacimiento_mes','pf_fecha_nacimiento_anio'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.value = '';
+    });
+    document.querySelectorAll('#dynamicFields input, #dynamicFields textarea').forEach(el => {
+        if (el.type === 'checkbox' || el.type === 'radio') el.checked = false;
+        else el.value = '';
+    });
+    editingResponseId = null;
+    document.getElementById('editBanner').classList.add('d-none');
+    document.getElementById('btnSubmit').disabled = false;
+    document.getElementById('btnSubmit').innerHTML = '<i class="bi bi-send me-1"></i>Enviar Respuesta';
+    document.getElementById('resultPanel').classList.add('d-none');
+    document.getElementById('publicForm').classList.remove('d-none');
+    window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+function editMySelection() {
+    const token = window._lastEditToken || EDIT_TOKEN;
+    if (token) {
+        window.location.href = `${window.location.origin}/form/{{ form.slug or form.id }}/editar/${token}`;
+        return;
+    }
+    document.getElementById('resultPanel').classList.add('d-none');
+    document.getElementById('publicForm').classList.remove('d-none');
+    document.getElementById('editBanner').classList.remove('d-none');
+    document.getElementById('btnSubmit').disabled = false;
+    document.getElementById('btnSubmit').innerHTML = '<i class="bi bi-pencil-square me-1"></i>Actualizar Respuesta';
+}
+
+loadFields();
+</script>
