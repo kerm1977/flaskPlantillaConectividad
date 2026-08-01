@@ -1,4 +1,3 @@
-          {% endif %}
           {% if pub.punto_salida %}
           <div class="d-flex gap-2">
             <i class="bi bi-pin-map-fill text-orange mt-1 flex-shrink-0"></i>
@@ -6,7 +5,6 @@
           </div>
           {% endif %}
         </div>
-        {% endif %}
         {% if pub.recomendaciones and (show_all or 'recomendaciones' in mostrar) %}
         <div class="mb-4 p-4 rounded-4" style="background:rgba(25,135,84,0.06);border:1px solid rgba(25,135,84,0.15);">
           <h5 class="fw-bold mb-2 text-success"><i class="bi bi-lightbulb-fill me-2"></i>Recomendaciones</h5>
@@ -16,7 +14,6 @@
         {% if pub.desc_caminata and (show_all or 'desc_caminata' in mostrar) %}
         <p class="mb-4" style="line-height:1.8;color:#555;white-space:pre-line;">{{ pub.desc_caminata }}</p>
         {% endif %}
-      {% endif %}
 
       <!-- DIRECCIÓN + URL -->
       {% if pub.direccion and (show_all or 'direccion' in mostrar) %}
@@ -95,4 +92,3 @@
 {% endif %}
 
 {% include 'partials/evento_detalle_scripts.html' %}
-{% endblock %}

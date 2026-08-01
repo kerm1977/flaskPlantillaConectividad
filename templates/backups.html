@@ -187,4 +187,6 @@ async function createBackup() {
             msg.innerHTML = `<div class="alert alert-danger rounded-3 py-2"><i class="bi bi-x-circle-fill me-2"></i>${data.error}</div>`;
         }
 
-{% include 'templates/backups_extra.html' %}
+{% include 'backups_extra.html' %}
+{% endblock %}
+
