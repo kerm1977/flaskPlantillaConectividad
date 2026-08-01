@@ -75,6 +75,8 @@ from routes import (        # noqa: E402, F401
     pages_admin,
     pages_crm,
     auth,
+    auth_profile,
+    auth_password,
     events,
     events_crud,
     music,
