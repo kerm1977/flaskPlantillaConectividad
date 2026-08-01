@@ -1,0 +1,110 @@
+<script>
+let users = [];
+const roleColors = {
+    'Superusuario': 'bg-danger bg-opacity-25 text-danger',
+    'Administrador 1': 'bg-warning bg-opacity-25 text-warning-emphasis',
+    'Administrador 2': 'bg-info bg-opacity-25 text-info-emphasis',
+    'Colaborador': 'bg-secondary bg-opacity-25 text-secondary',
+    'Usuario': 'bg-light text-muted'
+};
+
+async function loadUsers(){
+    const res = await fetch('/api/admin/users');
+    if(!res.ok){ showMsg('Error cargando usuarios','danger'); return; }
+    users = await res.json();
+    renderUsers();
+}
+
+function renderUsers(){
+    const tb = document.getElementById('usersBody');
+    if(!users.length){ tb.innerHTML='<tr><td colspan="5" class="text-center text-muted-pastel py-4">No hay usuarios</td></tr>'; return; }
+    tb.innerHTML = users.map(u => {
+        const roleClass = roleColors[u.role] || 'bg-light text-muted';
+        const statusBadge = u.status === 'Activo' ? 'bg-success bg-opacity-25 text-success' : 'bg-secondary bg-opacity-25 text-muted';
+        const isSelf = u.id == (window.currentUserId || null);
+        return \`<tr>
+            <td class="fw-semibold text-main">\${u.name} \${u.last_name_1 || ''}</td>
+            <td class="text-muted-pastel small">\${u.email}</td>
+            <td><span class="badge rounded-pill \${roleClass}">\${u.role}</span></td>
+            <td><span class="badge rounded-pill \${statusBadge}">\${u.status}</span></td>
+            <td class="text-end">
+                <button class="btn btn-sm btn-pastel btn-pastel-lavender rounded-pill me-1" onclick="openEditUser(\${u.id})"><i class="bi bi-pencil"></i></button>
+                <button class="btn btn-sm btn-pastel btn-pastel-rose rounded-pill" onclick="deleteUser(\${u.id})" \${isSelf ? 'disabled title="No puedes eliminarte"' : ''}><i class="bi bi-trash"></i></button>
+            </td>
+        </tr>\`;
+    }).join('');
+}
+
+function openCreateUser(){
+    document.getElementById('userForm').reset();
+    document.getElementById('u_id').value = '';
+    document.getElementById('u_password').placeholder = 'Contraseña';
+    document.getElementById('passwordWrap').classList.remove('d-none');
+    document.getElementById('userModalLabel').textContent = 'Nuevo usuario';
+    document.getElementById('userMsg').textContent = '';
+}
+
+function openEditUser(id){
+    const u = users.find(x => x.id === id);
+    if(!u) return;
+    document.getElementById('u_id').value = u.id;
+    document.getElementById('u_name').value = u.name;
+    document.getElementById('u_last_name_1').value = u.last_name_1;
+    document.getElementById('u_last_name_2').value = u.last_name_2 || '';
+    document.getElementById('u_email').value = u.email;
+    document.getElementById('u_phone').value = u.phone || '';
+    document.getElementById('u_role').value = u.role;
+    document.getElementById('u_password').value = '';
+    document.getElementById('u_password').placeholder = 'Dejar en blanco para no cambiar';
+    document.getElementById('passwordWrap').classList.remove('d-none');
+    document.getElementById('userModalLabel').textContent = 'Editar usuario';
+    document.getElementById('userMsg').textContent = '';
+    new bootstrap.Modal(document.getElementById('userModal')).show();
+}
+
+async function saveUser(){
+    const id = document.getElementById('u_id').value;
+    const payload = {
+        name: document.getElementById('u_name').value.trim(),
+        last_name_1: document.getElementById('u_last_name_1').value.trim(),
+        last_name_2: document.getElementById('u_last_name_2').value.trim(),
+        email: document.getElementById('u_email').value.trim().toLowerCase(),
+        phone: document.getElementById('u_phone').value.trim(),
+        role: document.getElementById('u_role').value
+    };
+    const pass = document.getElementById('u_password').value;
+    if(pass) payload.password = pass;
+
+    let res;
+    if(id){
+        const fd = new FormData();
+        Object.keys(payload).forEach(k => fd.append(k, payload[k]));
+        res = await fetch('/api/admin/update_user/' + id, {method:'POST', body:fd});
+    } else {
+        if(!pass){ showMsg('La contraseña es obligatoria para nuevos usuarios','danger'); return; }
+        res = await fetch('/api/admin/create_user', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(payload)});
+    }
+    const json = await res.json();
+    if(res.ok){
+        bootstrap.Modal.getInstance(document.getElementById('userModal')).hide();
+        await loadUsers();
+    } else {
+        showMsg(json.error || 'Error al guardar','danger');
+    }
+}
+
+function showMsg(text, color){
+    const msg = document.getElementById('userMsg');
+    msg.textContent = text;
+    msg.className = 'mt-3 small text-' + color;
+}
+
+async function deleteUser(id){
+    if(!confirm('¿Eliminar este usuario?')) return;
+    const res = await fetch('/api/admin/delete_user/' + id, {method:'DELETE'});
+    if(res.ok) await loadUsers();
+    else alert('Error al eliminar');
+}
+
+document.addEventListener('DOMContentLoaded', loadUsers);
+</script>

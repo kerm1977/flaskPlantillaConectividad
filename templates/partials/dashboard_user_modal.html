@@ -1,0 +1,56 @@
+<div class="modal fade" id="userModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 card-pastel" style="border-radius:1.5rem;">
+            <div class="modal-header border-0">
+                <h5 class="modal-title fw-bold text-main" id="userModalLabel">Nuevo usuario</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                <form id="userForm" class="form-pastel text-start" enctype="multipart/form-data">
+                    <input type="hidden" id="u_id" name="u_id">
+                    <div class="row g-3">
+                        <div class="col-12 col-md-6">
+                            <label class="form-label text-muted-pastel small fw-bold">Nombre</label>
+                            <input type="text" class="form-control" id="u_name" name="name" required>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label class="form-label text-muted-pastel small fw-bold">Apellido 1</label>
+                            <input type="text" class="form-control" id="u_last_name_1" name="last_name_1" required>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label class="form-label text-muted-pastel small fw-bold">Apellido 2</label>
+                            <input type="text" class="form-control" id="u_last_name_2" name="last_name_2">
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label class="form-label text-muted-pastel small fw-bold">Email</label>
+                            <input type="email" class="form-control" id="u_email" name="email" required>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label class="form-label text-muted-pastel small fw-bold">Teléfono</label>
+                            <input type="tel" class="form-control" id="u_phone" name="phone">
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label class="form-label text-muted-pastel small fw-bold">Rol</label>
+                            <select class="form-select" id="u_role" name="role" required>
+                                <option value="Usuario">Usuario</option>
+                                <option value="Colaborador">Colaborador</option>
+                                <option value="Administrador 2">Administrador 2</option>
+                                <option value="Administrador 1">Administrador 1</option>
+                                <option value="Superusuario">Superusuario</option>
+                            </select>
+                        </div>
+                        <div class="col-12" id="passwordWrap">
+                            <label class="form-label text-muted-pastel small fw-bold">Contraseña</label>
+                            <input type="password" class="form-control" id="u_password" name="password" placeholder="Dejar en blanco para no cambiar">
+                        </div>
+                    </div>
+                    <div id="userMsg" class="mt-3 small text-center"></div>
+                </form>
+            </div>
+            <div class="modal-footer border-0 pt-0">
+                <button type="button" class="btn-pastel btn-outline-pastel rounded-pill" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn-pastel rounded-pill" onclick="saveUser()">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>

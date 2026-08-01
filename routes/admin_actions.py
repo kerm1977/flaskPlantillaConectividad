@@ -52,7 +52,8 @@ def admin_update_user(user_id):
     if new_role:
         u.role = new_role
         if new_role == 'Superusuario': u.weight = 100
-        elif new_role == 'Administrador': u.weight = 50
+        elif new_role == 'Administrador 1': u.weight = 50
+        elif new_role == 'Administrador 2': u.weight = 25
         elif new_role == 'Colaborador': u.weight = 10
         else: u.weight = 1
         
@@ -77,3 +78,41 @@ def admin_update_user(user_id):
 
     db.session.commit()
     return jsonify({'success': True})
+
+
+
+@bp.route('/api/admin/create_user', methods=['POST'])
+def admin_create_user():
+    if 'user_id' not in session or session.get('role') != 'Superusuario':
+        return jsonify({'error': 'No autorizado'}), 403
+    data = request.json
+    email = (data.get('email') or '').lower().strip()
+    if not email or not data.get('name') or not data.get('last_name_1') or not data.get('password'):
+        return jsonify({'error': 'Faltan datos obligatorios'}), 400
+    if User.query.filter_by(email=email).first():
+        return jsonify({'error': 'Email ya registrado'}), 400
+    try:
+        from datetime import datetime
+        new_user = User(
+            name=data.get('name'),
+            last_name_1=data.get('last_name_1'),
+            last_name_2=data.get('last_name_2', ''),
+            email=email,
+            password_hash=hash_password(data.get('password'))
+        )
+        role = data.get('role', 'Usuario')
+        new_user.role = role
+        if role == 'Superusuario': new_user.weight = 100
+        elif role == 'Administrador 1': new_user.weight = 50
+        elif role == 'Administrador 2': new_user.weight = 25
+        elif role == 'Colaborador': new_user.weight = 10
+        else: new_user.weight = 1
+        if data.get('phone'): new_user.phone = data.get('phone')
+        if data.get('dob'):
+            new_user.dob = datetime.strptime(data.get('dob'), '%Y-%m-%d').date()
+        db.session.add(new_user)
+        db.session.commit()
+        return jsonify({'success': True, 'id': new_user.id})
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'error': str(e)}), 500
