@@ -91,6 +91,7 @@ from routes import (        # noqa: E402, F401
     db_export,
     forms_crud,
     forms_public,
+    forms_submit,
     forms_responses,
     rifas_public,
     rifas_selecciones,
