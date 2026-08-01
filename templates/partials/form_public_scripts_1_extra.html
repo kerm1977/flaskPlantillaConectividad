@@ -1,0 +1,101 @@
+}
+
+function clearDuplicate() {
+    duplicateBlocked = false;
+    document.getElementById('duplicateWarning').classList.add('d-none');
+    if (!editingResponseId) {
+        document.getElementById('btnSubmit').disabled = false;
+    }
+}
+
+function overrideDuplicate() {
+    duplicateBlocked = false;
+    document.getElementById('duplicateWarning').classList.add('d-none');
+    document.getElementById('btnSubmit').disabled = false;
+}
+
+function toTitleCase(str) {
+    return str.replace(/\w\S*/g, w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase());
+}
+
+function applyTitleCase(input) {
+    const pos = input.selectionStart;
+    input.value = toTitleCase(input.value);
+    input.setSelectionRange(pos, pos);
+}
+
+document.addEventListener('input', function(e) {
+    if (e.target && (e.target.id === 'pf_nombre')) {
+        applyTitleCase(e.target);
+        clearDuplicate();
+    }
+});
+
+const nombreDupInput = document.getElementById('pf_nombre');
+if (nombreDupInput) {
+    nombreDupInput.addEventListener('blur', function() {
+        const val = this.value.trim();
+        if (val.length >= 3) checkDuplicate(val);
+    });
+}
+
+const telefonoInput = document.getElementById('pf_telefono');
+if (telefonoInput) {
+    telefonoInput.setAttribute('maxlength', '8');
+    telefonoInput.setAttribute('inputmode', 'numeric');
+    telefonoInput.setAttribute('pattern', '[0-9]{8}');
+    telefonoInput.addEventListener('input', function() {
+        this.value = this.value.replace(/\D/g, '').slice(0, 8);
+    });
+    telefonoInput.addEventListener('keypress', function(e) {
+        if (!/[0-9]/.test(e.key)) e.preventDefault();
+    });
+    telefonoInput.addEventListener('blur', function() {
+        if (this.value && this.value.length !== 8) {
+            this.classList.add('is-invalid');
+            let fb = document.getElementById('pf_telefono_feedback');
+            if (!fb) {
+                fb = document.createElement('div');
+                fb.id = 'pf_telefono_feedback';
+                fb.className = 'invalid-feedback';
+                fb.textContent = 'El teléfono debe tener exactamente 8 dígitos.';
+                this.parentNode.appendChild(fb);
+            }
+        } else {
+            this.classList.remove('is-invalid');
+            this.classList.add('is-valid');
+        }
+    });
+    telefonoInput.addEventListener('input', function() {
+        this.classList.remove('is-invalid', 'is-valid');
+    });
+}
+
+const nombreInput = document.getElementById('pf_nombre');
+const acList = document.getElementById('autocompleteList');
+
+if (nombreInput && acList) {
+    nombreInput.addEventListener('input', function() {
+        const q = this.value.trim();
+        clearTimeout(acTimeout);
+        if (q.length < 2) { acList.style.display = 'none'; return; }
+        acTimeout = setTimeout(async () => {
+            const res = await fetch(`/api/forms/search_hikers?q=${encodeURIComponent(q)}`);
+            const results = await res.json();
+            if (!results.length) { acList.style.display = 'none'; return; }
+            acList.innerHTML = results.map(r => `
+                <button type="button" class="list-group-item list-group-item-action py-2" onclick="selectHiker(this)" 
+                        data-nombre="${r.nombre_completo}" data-telefono="${r.telefono}" data-cedula="${r.cedula}">
+                    <strong>${r.nombre_completo}</strong>
+                    <small class="text-muted ms-2">${r.cedula}</small>
+                </button>
+            `).join('');
+            acList.style.display = 'block';
+        }, 300);
+    });
+
+    document.addEventListener('click', (e) => {
+        if (!acList.contains(e.target) && e.target !== nombreInput) acList.style.display = 'none';
+    });
+}
+

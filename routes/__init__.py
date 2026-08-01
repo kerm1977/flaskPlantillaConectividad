@@ -93,6 +93,7 @@ from routes import (        # noqa: E402, F401
     forms_public,
     forms_submit,
     forms_responses,
+    forms_responses_list,
     forms_responses_export,
     forms_responses_export_small,
     forms_responses_export_pdf,

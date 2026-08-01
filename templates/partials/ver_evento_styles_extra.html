@@ -1,0 +1,100 @@
+
+    /* NUEVOS ESTILOS ROBUSTOS PARA CHECKBOXES INCLUYE (MODAL DE EDICIÓN) */
+    .btn-check-custom {
+        display: none !important;
+    }
+    .lbl-check-custom {
+        background-color: rgba(255, 255, 255, 0.5) !important;
+        border: 1px solid rgba(255, 255, 255, 0.8) !important;
+        color: #495057 !important;
+        transition: all 0.2s ease;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        cursor: pointer;
+        user-select: none;
+        font-weight: 500;
+        font-size: 0.9rem;
+    }
+    .lbl-check-custom:hover {
+        background-color: rgba(255, 255, 255, 0.8) !important;
+    }
+    .btn-check-custom:checked + .lbl-check-custom {
+        background-color: #ff8c00 !important;
+        color: white !important;
+        border-color: #ff8c00 !important;
+        box-shadow: 0 4px 8px rgba(255, 140, 0, 0.3) !important;
+    }
+
+    /* --- ESTILOS DEL EDITOR DE FLYER (SOLO SUPERUSUARIOS) --- */
+    {% if is_super_user %}
+    .flyer-preview-wrapper {
+        width: 100%;
+        height: 350px; 
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: rgba(0, 0, 0, 0.05);
+        border: 1px dashed rgba(255, 140, 0, 0.4);
+        border-radius: 1.5rem;
+        overflow: hidden;
+        position: relative;
+        transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+    
+    @media (min-width: 992px) {
+        .flyer-preview-wrapper {
+            height: 380px; 
+        }
+    }
+
+    .flyer-capture-area {
+        position: relative;
+        width: 360px;
+        height: 640px; 
+        background-color: #000;
+        flex-shrink: 0;
+        transform-origin: center center;
+        border-radius: 1.5rem; 
+        overflow: hidden;
+    }
+
+    .flyer-bg-container {
+        position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+        width: 100%; height: 100%;
+    }
+
+    .flyer-bg-img {
+        width: 100%; height: 100%; object-fit: cover; transform-origin: center center;
+    }
+
+    .flyer-glass-overlay {
+        position: absolute; 
+        bottom: 20px; 
+        left: 0; right: 0; margin: 0 auto; 
+        width: 90%; 
+        border: 1px solid rgba(255, 255, 255, 0.25); 
+        border-radius: 1.2rem; padding: 1.5rem;
+        color: white; text-shadow: 0 2px 5px rgba(0,0,0,0.6); 
+        box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+        transform-origin: center center;
+        --text-scale: 1;
+    }
+
+    .flyer-badge {
+        background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.2);
+        color: white; padding: 4px 10px; border-radius: 50px; 
+        font-weight: 700; text-transform: uppercase;
+        font-size: calc(0.7rem * var(--text-scale));
+    }
+
+    .editor-control-label { font-size: 0.75rem; font-weight: 700; color: #495057; text-transform: uppercase; margin-bottom: 2px; }
+    
+    .form-switch .form-check-input {
+        width: 2.2rem;
+        height: 1.1rem;
+        cursor: pointer;
+    }
+
+    .transition-chevron { transition: transform 0.3s ease; }
+    [data-bs-toggle="collapse"][aria-expanded="true"] .transition-chevron { transform: rotate(180deg); }
+    {% endif %}
+</style>

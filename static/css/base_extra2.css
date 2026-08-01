@@ -1,0 +1,133 @@
+/* Playlist Item Hover Effect */
+.playlist-item {
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+.playlist-item:hover {
+    background: rgba(255, 255, 255, 0.1) !important;
+    transform: translateX(4px);
+}
+
+/* Personalización sutil del input range del reproductor */
+.glass-range {
+    -webkit-appearance: none;
+    width: 100%;
+    background: transparent;
+}
+.glass-range::-webkit-slider-runnable-track {
+    background: rgba(255,255,255,0.2);
+    border-radius: 5px;
+    height: 6px;
+}
+.glass-range::-webkit-slider-thumb {
+    background: var(--primary-orange);
+    border: 2px solid white;
+    height: 16px;
+    width: 16px;
+    border-radius: 50%;
+    margin-top: -5px;
+    -webkit-appearance: none;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+
+/* ESTILOS PARA EL GENERADOR DE CALENDARIO */
+.editor-tools {
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 1rem;
+}
+
+#flyer-wrapper {
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    border-radius: 1rem;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+    background-color: var(--bg-darker, #121212);
+}
+
+/* AHORA EL LIENZO ES DINÁMICO Y PURO */
+#lienzo-arte {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform-origin: top left;
+    background-color: #2a2a2a;
+    overflow: hidden;
+    color: white;
+    width: 1920px;
+    height: 1080px;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Arial, sans-serif; /* Fallback universal */
+}
+
+.overlay-oscuro {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6); /* Solo opacidad */
+    z-index: 2;
+}
+
+.calendario-contenido {
+    position: relative;
+    z-index: 3;
+    width: 100%;
+    height: 100%;
+    padding: 60px 80px;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+
+.mes-card {
+    background: rgba(30, 30, 30, 0.7);
+    border: 1px solid rgba(255, 140, 0, 0.3);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    height: 100%;
+    /* NO AGREGAR BOX-SHADOW AQUI PARA EVITAR BUGS EN HTML2CANVAS */
+}
+
+.mes-titulo {
+    color: var(--primary-orange, #ff8c00);
+    border-bottom: 2px solid var(--primary-orange, #ff8c00);
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.evento-item {
+    background: rgba(255, 255, 255, 0.05);
+    border-left: 4px solid var(--primary-orange, #ff8c00);
+    padding: 10px 15px;
+    margin-bottom: 12px;
+    border-radius: 0 0.5rem 0.5rem 0;
+}
+
+/* ==========================================
+   GLOBAL: ELIMINAR TODAS LAS SOMBRAS DEL SITIO
+   ========================================== */
+*,
+*::before,
+*::after {
+    box-shadow: none !important;
+    text-shadow: none !important;
+}
+/* Mantener text-shadow solo en el flyer overlay */
+.flyer-glass-overlay,
+.flyer-glass-overlay * {
+    text-shadow: 0 2px 5px rgba(0,0,0,0.6) !important;
+}
+/* Mantener focus ring para accesibilidad de formularios */
+.form-control:focus,
+.form-select:focus,
+.glass-input:focus,
+.form-check-input:focus {
+    box-shadow: 0 0 0 0.2rem rgba(255, 140, 0, 0.25) !important;
+}

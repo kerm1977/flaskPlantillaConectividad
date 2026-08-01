@@ -1,0 +1,142 @@
+.logo-suenos-navbar:hover {
+    transform: scale(1.05);
+}
+
+/* Logo de Sueños en Móvil */
+.logo-suenos-mobile {
+    height: 120px;
+    width: auto;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-bottom: 70px;
+}
+.logo-suenos-mobile:hover {
+    transform: scale(1.05);
+}
+
+/* Logo de Sueños Flotante en PC */
+.logo-suenos-desktop-fixed {
+    position: fixed;
+    bottom: 100px;
+    left: 20px;
+    height: 150px;
+    width: auto;
+    z-index: 1045;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.logo-suenos-desktop-fixed:hover {
+    transform: scale(1.05);
+}
+
+.modal-alert {
+    backdrop-filter: blur(5px);
+    border: none;
+    border-radius: 10px;
+    font-weight: 500;
+}
+
+.image-editor-controls input[type=range] {
+    height: 25px;
+    -webkit-appearance: none;
+    margin: 10px 0;
+    width: 100%;
+    background: transparent;
+}
+.image-editor-controls input[type=range]:focus {
+    outline: none;
+}
+.image-editor-controls input[type=range]::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 5px;
+    cursor: pointer;
+    box-shadow: 0px 0px 0px #000000;
+    background: rgba(255, 140, 0, 0.5);
+    border-radius: 5px;
+    border: 0px solid #000000;
+}
+.image-editor-controls input[type=range]::-webkit-slider-thumb {
+    box-shadow: 0px 0px 0px #000000;
+    border: 2px solid var(--primary-orange);
+    height: 18px;
+    width: 18px;
+    border-radius: 50%;
+    background: #FFFFFF;
+    cursor: pointer;
+    -webkit-appearance: none;
+    margin-top: -7px;
+}
+
+/* ========================================== */
+/* ESTILOS NUEVOS: REPRODUCTOR Y GLASSMORPHISM */
+/* ========================================== */
+
+/* MiniPlayer Glassmorphism y Posicionamiento Seguro */
+.miniplayer-glass {
+    background: rgba(25, 25, 30, 0.85) !important;
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+#miniPlayer {
+    bottom: calc(var(--nav-mobile-height, 70px) + 12px);
+}
+@media (min-width: 768px) {
+    #miniPlayer { bottom: 25px; }
+}
+
+/* Reproductor Grande (Offcanvas 100% Pantalla) Glassmorphism */
+.offcanvas-glass {
+    background: rgba(15, 15, 20, 0.92) !important;
+    backdrop-filter: blur(35px);
+    -webkit-backdrop-filter: blur(35px);
+    border: none !important;
+}
+
+/* Indicador de arrastre táctil (Píldora superior) */
+.drag-indicator {
+    width: 40px;
+    height: 5px;
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    margin: 0 auto;
+}
+
+/* Ocultar barra de scroll para un aspecto más limpio en el reproductor */
+.player-scroll::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
+}
+
+/* Botones Perfectamente Redondos (Previene deformaciones de Bootstrap) */
+.btn-circle-player {
+    width: 75px;
+    height: 75px;
+    border-radius: 50% !important;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    padding: 0;
+    transition: all 0.2s ease;
+}
+.btn-circle-player-sm {
+    width: 50px;
+    height: 50px;
+    border-radius: 50% !important;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    padding: 0;
+}
+
+/* Efecto de giro para las imágenes */
+.spin-animation {
+    animation: spin 6s linear infinite;
+}
+@keyframes spin { 
+    100% { transform: rotate(360deg); } 
+}
+
