@@ -1,23 +1,27 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 {% block content %}
-<div class="container py-5 text-center" style="min-height:80vh;display:flex;align-items:center;justify-content:center;">
-    <div>
-        {% if user %}
-            <h1 class="fw-bold text-success mb-3"><i class="bi bi-check-circle-fill"></i> Conectado satisfactoriamente</h1>
-            <p class="lead">Usuario: <strong class="text-dark">{{ user.name }} {{ user.last_name_1 }}</strong></p>
-            <p class="text-secondary mb-1">{{ user.email }}</p>
-            <p class="badge rounded-pill bg-warning text-dark mb-3">Rol: {{ user.role }}</p>
-            <div class="d-flex gap-2 justify-content-center">
-                <a href="{{ url_for('main.logout') }}" class="btn btn-outline-danger rounded-pill px-4">Cerrar sesión</a>
-            </div>
-        {% else %}
-            <h1 class="fw-bold text-orange mb-3">Bienvenido</h1>
-            <p class="lead text-secondary mb-4">Plantilla de conectividad lista para personalizar.</p>
-            <div class="d-flex gap-2 justify-content-center">
-                <a href="{{ url_for('main.login_page') }}" class="btn btn-orange rounded-pill px-4">Ingresar</a>
-                <a href="{{ url_for('main.register_page') }}" class="btn btn-outline-primary rounded-pill px-4">Registrarse</a>
-            </div>
-        {% endif %}
+<div class="hero-center">
+    <div class="container py-5">
+        <div class="card-pastel p-5 mx-auto" style="max-width:520px;">
+            {% if user %}
+                <div class="mb-4"><i class="bi bi-check-circle-fill pastel-icon-mint" style="font-size:3rem;"></i></div>
+                <h1 class="fw-bold mb-2 text-main">Conectado</h1>
+                <p class="text-muted-pastel mb-1">{{ user.name }} {{ user.last_name_1 }}</p>
+                <p class="text-muted-pastel mb-3">{{ user.email }}</p>
+                <span class="badge-pastel mb-4">Rol: {{ user.role }}</span>
+                <div class="d-flex gap-2 justify-content-center flex-wrap">
+                    <a href="{{ url_for('main.logout') }}" class="btn-pastel btn-pastel-rose rounded-pill px-4">Cerrar sesión</a>
+                </div>
+            {% else %}
+                <div class="mb-4"><i class="bi bi-stars pastel-icon-lavender" style="font-size:3.5rem;"></i></div>
+                <h1 class="fw-bold mb-2 text-main">Bienvenido</h1>
+                <p class="text-muted-pastel mb-4">Plataforma de conectividad lista para usar.</p>
+                <div class="d-flex gap-2 justify-content-center flex-wrap">
+                    <a href="{{ url_for('main.login_page') }}" class="btn-pastel rounded-pill px-4"><i class="bi bi-box-arrow-in-right"></i> Ingresar</a>
+                    <a href="{{ url_for('main.register_page') }}" class="btn-pastel btn-outline-pastel rounded-pill px-4">Registrarse</a>
+                </div>
+            {% endif %}
+        </div>
     </div>
 </div>
 {% endblock %}

@@ -1,142 +1,69 @@
-.logo-suenos-navbar:hover {
-    transform: scale(1.05);
+/* ========== COMPONENTS ========== */
+.card-pastel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 1.25rem;
+    box-shadow: 0 8px 24px var(--shadow);
+    transition: transform 0.2s, box-shadow 0.2s;
 }
 
-/* Logo de Sueños en Móvil */
-.logo-suenos-mobile {
-    height: 120px;
-    width: auto;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    margin-bottom: 70px;
-}
-.logo-suenos-mobile:hover {
-    transform: scale(1.05);
-}
+.card-pastel:hover { transform: translateY(-2px); box-shadow: 0 12px 30px var(--shadow); }
 
-/* Logo de Sueños Flotante en PC */
-.logo-suenos-desktop-fixed {
-    position: fixed;
-    bottom: 100px;
-    left: 20px;
-    height: 150px;
-    width: auto;
-    z-index: 1045;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-.logo-suenos-desktop-fixed:hover {
-    transform: scale(1.05);
-}
-
-.modal-alert {
-    backdrop-filter: blur(5px);
+.btn-pastel {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    background: var(--pastel-mint);
+    color: var(--primary-text);
     border: none;
-    border-radius: 10px;
-    font-weight: 500;
+    border-radius: 1rem;
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    font-size: 1rem;
+    box-shadow: 0 4px 12px rgba(181,234,215,0.35);
+    transition: transform 0.15s, box-shadow 0.15s, filter 0.15s;
 }
 
-.image-editor-controls input[type=range] {
-    height: 25px;
-    -webkit-appearance: none;
-    margin: 10px 0;
-    width: 100%;
-    background: transparent;
+.btn-pastel:hover { transform: translateY(-1px); filter: brightness(0.97); }
+
+.btn-pastel-rose { background: var(--pastel-rose); color: #fff; box-shadow: 0 4px 12px rgba(255,154,162,0.35); }
+.btn-pastel-coral { background: var(--pastel-coral); color: #5a3e3e; box-shadow: 0 4px 12px rgba(255,183,178,0.35); }
+.btn-pastel-lavender { background: var(--pastel-lavender); color: #3b3b58; box-shadow: 0 4px 12px rgba(199,206,234,0.35); }
+.btn-pastel-sky { background: var(--pastel-sky); color: #154144; box-shadow: 0 4px 12px rgba(160,231,229,0.35); }
+.btn-outline-pastel { background: transparent; border: 2px solid var(--border); color: var(--text); box-shadow: none; }
+.btn-outline-pastel:hover { background: var(--surface-2); }
+
+.pastel-icon { color: var(--pastel-coral); }
+.pastel-icon-mint { color: var(--pastel-mint); }
+.pastel-icon-lavender { color: var(--pastel-lavender); }
+.pastel-icon-sky { color: var(--pastel-sky); }
+.pastel-icon-rose { color: var(--pastel-rose); }
+.pastel-icon-peach { color: var(--pastel-peach); }
+
+.badge-pastel {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.35rem 0.75rem;
+    border-radius: 0.75rem;
+    font-weight: 600;
+    font-size: 0.85rem;
+    background: var(--surface-2);
+    color: var(--text-muted);
 }
-.image-editor-controls input[type=range]:focus {
+
+.form-pastel input, .form-pastel select, .form-pastel textarea {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 1rem;
+    padding: 0.85rem 1rem;
+    color: var(--text);
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-pastel input:focus, .form-pastel select:focus {
     outline: none;
+    border-color: var(--pastel-mint);
+    box-shadow: 0 0 0 4px rgba(181,234,215,0.25);
 }
-.image-editor-controls input[type=range]::-webkit-slider-runnable-track {
-    width: 100%;
-    height: 5px;
-    cursor: pointer;
-    box-shadow: 0px 0px 0px #000000;
-    background: rgba(255, 140, 0, 0.5);
-    border-radius: 5px;
-    border: 0px solid #000000;
-}
-.image-editor-controls input[type=range]::-webkit-slider-thumb {
-    box-shadow: 0px 0px 0px #000000;
-    border: 2px solid var(--primary-orange);
-    height: 18px;
-    width: 18px;
-    border-radius: 50%;
-    background: #FFFFFF;
-    cursor: pointer;
-    -webkit-appearance: none;
-    margin-top: -7px;
-}
-
-/* ========================================== */
-/* ESTILOS NUEVOS: REPRODUCTOR Y GLASSMORPHISM */
-/* ========================================== */
-
-/* MiniPlayer Glassmorphism y Posicionamiento Seguro */
-.miniplayer-glass {
-    background: rgba(25, 25, 30, 0.85) !important;
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-}
-#miniPlayer {
-    bottom: calc(var(--nav-mobile-height, 70px) + 12px);
-}
-@media (min-width: 768px) {
-    #miniPlayer { bottom: 25px; }
-}
-
-/* Reproductor Grande (Offcanvas 100% Pantalla) Glassmorphism */
-.offcanvas-glass {
-    background: rgba(15, 15, 20, 0.92) !important;
-    backdrop-filter: blur(35px);
-    -webkit-backdrop-filter: blur(35px);
-    border: none !important;
-}
-
-/* Indicador de arrastre táctil (Píldora superior) */
-.drag-indicator {
-    width: 40px;
-    height: 5px;
-    background-color: rgba(255, 255, 255, 0.3);
-    border-radius: 10px;
-    margin: 0 auto;
-}
-
-/* Ocultar barra de scroll para un aspecto más limpio en el reproductor */
-.player-scroll::-webkit-scrollbar {
-    width: 0px;
-    background: transparent;
-}
-
-/* Botones Perfectamente Redondos (Previene deformaciones de Bootstrap) */
-.btn-circle-player {
-    width: 75px;
-    height: 75px;
-    border-radius: 50% !important;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    padding: 0;
-    transition: all 0.2s ease;
-}
-.btn-circle-player-sm {
-    width: 50px;
-    height: 50px;
-    border-radius: 50% !important;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    padding: 0;
-}
-
-/* Efecto de giro para las imágenes */
-.spin-animation {
-    animation: spin 6s linear infinite;
-}
-@keyframes spin { 
-    100% { transform: rotate(360deg); } 
-}
-

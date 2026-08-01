@@ -1,43 +1,49 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 {% block content %}
-<div class="container py-5">
-    <div class="row justify-content-center">
-        <div class="col-12 col-md-4">
-            <div class="card border-0 shadow-sm p-4" style="border-radius:1.5rem;">
-                <h2 class="fw-bold text-center text-orange mb-4">Crear cuenta</h2>
-                <form id="registerForm">
-                    <input type="text" id="name" class="form-control rounded-3 mb-2" placeholder="Nombre" required>
-                    <input type="text" id="last_name_1" class="form-control rounded-3 mb-2" placeholder="1er Apellido" required>
-                    <input type="text" id="last_name_2" class="form-control rounded-3 mb-2" placeholder="2do Apellido" required>
-                    <input type="email" id="email" class="form-control rounded-3 mb-2" placeholder="Email" required>
-                    <input type="password" id="password" class="form-control rounded-3 mb-3" placeholder="Contraseña" required>
-                    <button type="submit" class="btn btn-orange w-100 rounded-pill fw-bold">Registrarse</button>
-                </form>
-                <p id="registerMsg" class="text-danger small text-center mt-3 mb-0"></p>
-                <p class="text-center small mt-3 mb-0">
-                    ¿Ya tienes cuenta? <a href="{{ url_for('main.login_page') }}" class="text-decoration-none fw-bold">Ingresar</a>
-                </p>
+<div class="hero-center">
+    <div class="container py-5">
+        <div class="card-pastel p-5 mx-auto" style="max-width:420px;">
+            <div class="text-center mb-4">
+                <i class="bi bi-person-plus pastel-icon-peach" style="font-size:3rem;"></i>
+                <h2 class="fw-bold mt-2 text-main">Crear cuenta</h2>
             </div>
+            <form id="registerForm" class="form-pastel text-start" onsubmit="handleRegister(event)">
+                <div class="mb-3">
+                    <label class="form-label text-muted-pastel fw-semibold small">Nombre</label>
+                    <input type="text" id="name" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label text-muted-pastel fw-semibold small">Apellidos</label>
+                    <input type="text" id="last_name" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label text-muted-pastel fw-semibold small">Email</label>
+                    <input type="email" id="email" class="form-control" required>
+                </div>
+                <div class="mb-4">
+                    <label class="form-label text-muted-pastel fw-semibold small">Contraseña</label>
+                    <input type="password" id="password" class="form-control" required>
+                </div>
+                <button type="submit" class="btn-pastel btn-pastel-coral w-100 rounded-pill py-3 fw-bold">
+                    <i class="bi bi-person-plus me-2"></i>Registrarse
+                </button>
+            </form>
+            <div id="registerMsg" class="mt-3 small text-center"></div>
+            <p class="text-center mt-4 mb-0 small text-muted-pastel">
+                ¿Ya tienes cuenta? <a href="{{ url_for('main.login_page') }}" class="pastel-icon-sky fw-semibold">Ingresa</a>
+            </p>
         </div>
     </div>
 </div>
 <script>
-document.getElementById('registerForm').addEventListener('submit', async (e) => {
+async function handleRegister(e){
     e.preventDefault();
-    const res = await fetch('/api/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-            name: document.getElementById('name').value.trim(),
-            last_name_1: document.getElementById('last_name_1').value.trim(),
-            last_name_2: document.getElementById('last_name_2').value.trim(),
-            email: document.getElementById('email').value.trim().toLowerCase(),
-            password: document.getElementById('password').value
-        })
-    });
-    const data = await res.json();
-    if (data.success) window.location.href = '/';
-    else document.getElementById('registerMsg').textContent = data.error || 'Error al registrarse';
-});
+    const data={name:document.getElementById('name').value, last_name:document.getElementById('last_name').value, email:document.getElementById('email').value, password:document.getElementById('password').value};
+    const res=await fetch('/api/register',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});
+    const json=await res.json();
+    const msg=document.getElementById('registerMsg');
+    if(res.ok){ window.location.href='/login'; }
+    else { msg.textContent=json.error||'Error'; msg.className='mt-3 small text-danger'; }
+}
 </script>
 {% endblock %}

@@ -2,98 +2,73 @@
 <html lang="es" data-theme="light">
 <head>
     <meta charset="UTF-8">
-    <!-- Viewport seguro para evitar solapamientos en dispositivos móviles -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    
-    <title>Caminatas La Tribu</title>
-
-    <!-- PWA: Manifest y metadatos -->
+    <title>Conectividad</title>
     <link rel="manifest" href="/manifest.json">
-    <meta name="theme-color" content="#ff8c00">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="apple-mobile-web-app-title" content="La Tribu">
-    <link rel="apple-touch-icon" href="/static/logo.png">
-    
-    <!-- SIN CDNs: Carga directa de Bootstrap Local -->
+    <meta name="theme-color" content="#b5ead7">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}?v=2">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-icons.css') }}?v=2">
-    
-    <!-- Carga de CSS Global, Principal y Base separado -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/global.css') }}?v=2">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}?v=2">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}?v=2">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/base_extra.css') }}?v=2">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/base_extra2.css') }}?v=2">
-
-    {% include 'partials/base_styles.html' %}
 </head>
 <body>
-    <!-- Navbar Desktop (Flotante, Glassmorphic, oculta en móvil) -->
-    <div class="container mt-4">
-        <nav class="navbar navbar-expand-lg d-none d-md-flex custom-navbar glass-panel rounded-pill">
-            <div class="container-fluid">
-                <!-- Marca de la Navbar SÚPER LIMPIA -->
-                <a class="navbar-brand text-orange fw-bold fs-4 d-flex align-items-center gap-2" href="/">
-                    <i class="bi bi-compass"></i> La Tribu
-                </a>
-                <div class="ms-auto d-flex align-items-center gap-3">
-                    {% if session.get('user_id') %}
-                        {% set nav_avatar = session.get('avatar') or '' %}
-                        <a href="{{ url_for('main.profile') }}" class="d-flex align-items-center text-decoration-none" title="Mi Perfil">
-                            <div class="rounded-circle overflow-hidden border border-2 border-white shadow-sm d-flex align-items-center justify-content-center bg-orange" style="width:42px;height:42px;flex-shrink:0;">
-                                {% if nav_avatar and nav_avatar != 'default.png' %}
-                                    <img src="{{ url_for('static', filename=nav_avatar) }}" alt="Avatar" style="width:100%;height:100%;object-fit:cover;">
-                                {% else %}
-                                    <i class="bi bi-person-fill text-white fs-5"></i>
-                                {% endif %}
-                            </div>
-                        </a>
-                    {% else %}
-                        <button class="btn btn-orange rounded-pill px-4 shadow-sm fw-bold d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#loginModal">
-                            <i class="bi bi-box-arrow-in-right me-2 fs-5"></i> Ingresar
-                        </button>
-                    {% endif %}
-                </div>
+    <nav class="navbar navbar-expand-lg fixed-top d-none d-md-flex" style="background:transparent;padding-top:1rem;">
+        <div class="container">
+            <a class="navbar-brand fw-bold fs-4 text-main d-flex align-items-center gap-2" href="/">
+                <i class="bi bi-stars pastel-icon-mint"></i> Conectividad
+            </a>
+            <div class="ms-auto d-flex align-items-center gap-3">
+                {% if session.get('user_id') %}
+                    <a href="{{ url_for('main.profile') }}" class="btn-pastel btn-pastel-lavender rounded-pill px-3 py-2">
+                        <i class="bi bi-person-fill me-1"></i>Perfil
+                    </a>
+                {% else %}
+                    <a href="{{ url_for('main.login_page') }}" class="btn-pastel rounded-pill px-4">
+                        <i class="bi bi-box-arrow-in-right me-2"></i>Ingresar
+                    </a>
+                {% endif %}
             </div>
-        </nav>
-    </div>
+        </div>
+    </nav>
 
-    <!-- Contenido Principal -->
-    <main class="container mt-2 mt-md-5 mb-5 pb-5 content-wrapper">
-        {% block content %}
-        {% endblock %}
+    <main class="container mt-5 pt-4 mb-5 pb-5">
+        {% block content %}{% endblock %}
     </main>
 
-    <!-- Botón Volver Atrás Global (OCULTO EN INICIO) -->
     {% if request.path != '/' %}
-    <button id="btnBack" class="btn-global-back" onclick="if(document.referrer.includes(window.location.host) && window.history.length > 1) { window.history.back(); } else { window.location.href='/'; }" title="Volver Atrás">
-        <i class="bi bi-arrow-left fs-4"></i>
+    <button id="btnBack" class="theme-toggle" style="left:1rem;right:auto;" onclick="if(document.referrer.includes(window.location.host)&&window.history.length>1){window.history.back();}else{window.location.href='/';}" title="Volver">
+        <i class="bi bi-arrow-left fs-5"></i>
     </button>
     {% endif %}
 
-    <!-- ========================================== -->
-    <!-- LOGO DE SUEÑOS FLOTANTE EN PC -->
-    <!-- ========================================== -->
-    <a id="logoSuenosDesktopLink" href="#" target="_blank" class="d-none d-md-block" style="display: none !important;">
-        <img id="logoSuenosDesktop" src="{{ url_for('static', filename='uploads/logosueños.png') }}" alt="Logo Sueños" class="logo-suenos-desktop-fixed animate-heartbeat">
-    </a>
-    <img id="logoSuenosDesktopNoLink" src="{{ url_for('static', filename='uploads/logosueños.png') }}" alt="Logo Sueños" class="logo-suenos-desktop-fixed d-none d-md-block animate-heartbeat" style="display: none !important;">
+    <button class="theme-toggle" id="themeToggle" title="Cambiar tema">
+        <i class="bi bi-moon-stars-fill fs-5"></i>
+    </button>
 
     {% include 'partials/base_admin_tools.html' %}
+    {% include 'partials/base_mobile_bar.html' %}
+    {% include 'partials/base_auth_modals.html' %}
+    {% include 'partials/base_calendar_modal.html' %}
+    {% include 'partials/base_links_modal.html' %}
+    {% include 'partials/modal_borrar_unificado.html' %}
+    {% include 'partials/base_scripts.html' %}
 
-
-{% include 'partials/base_mobile_bar.html' %}
-
-{% include 'partials/base_auth_modals.html' %}
-
-{% include 'partials/base_calendar_modal.html' %}
-
-{% include 'partials/base_links_modal.html' %}
-
-{% include 'partials/base_logo_modal.html' %}
-
-{% include 'partials/modal_borrar_unificado.html' %}
-
-{% include 'partials/base_scripts.html' %}
+    <script>
+        (function(){
+            const saved=localStorage.getItem('theme')||'light';
+            document.documentElement.setAttribute('data-theme', saved);
+            const btn=document.getElementById('themeToggle');
+            const icon=btn.querySelector('i');
+            function updateIcon(){ icon.className=document.documentElement.getAttribute('data-theme')==='dark'?'bi bi-sun-fill fs-5':'bi bi-moon-stars-fill fs-5'; }
+            updateIcon();
+            btn.addEventListener('click',()=>{
+                const next=document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark';
+                document.documentElement.setAttribute('data-theme', next);
+                localStorage.setItem('theme', next);
+                updateIcon();
+            });
+        })();
+    </script>
+</body>
+</html>

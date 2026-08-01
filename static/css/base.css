@@ -1,148 +1,55 @@
-/* Estilos base para el efecto Glassmorphism */
+/* ========== THEME VARIABLES ========== */
+:root {
+    --bg: #f7f9fc;
+    --surface: #ffffff;
+    --surface-2: #f0f4f8;
+    --text: #2d3436;
+    --text-muted: #6c7a89;
+    --border: #e3e8ec;
+    --shadow: rgba(0, 0, 0, 0.06);
+
+    --pastel-rose: #ff9aa2;
+    --pastel-coral: #ffb7b2;
+    --pastel-peach: #ffdac1;
+    --pastel-mint: #b5ead7;
+    --pastel-lavender: #c7ceea;
+    --pastel-sky: #a0e7e5;
+    --pastel-lemon: #ffffd1;
+    --pastel-lime: #e2f0cb;
+
+    --primary: #b5ead7;
+    --primary-text: #2d3436;
+    --secondary: #c7ceea;
+    --danger: #ff9aa2;
+    --warning: #ffdac1;
+}
+
+[data-theme="dark"] {
+    --bg: #1a1c29;
+    --surface: #222536;
+    --surface-2: #2a2d42;
+    --text: #f4f6f8;
+    --text-muted: #a0a3b1;
+    --border: #35394d;
+    --shadow: rgba(0, 0, 0, 0.3);
+
+    --primary: #a0e7e5;
+    --primary-text: #1a1c29;
+    --secondary: #c7ceea;
+    --danger: #ff9aa2;
+    --warning: #ffdac1;
+}
+
+* { box-sizing: border-box; }
+
 body {
-    background: linear-gradient(to right, #ffe0bd 0%, #ffcc99 100%);
-    background-attachment: fixed;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    transition: background 0.3s ease, color 0.3s ease;
+    line-height: 1.6;
 }
 
-.glass-panel {
-    background: rgba(255, 255, 255, 0.4);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.4);
-    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.05);
-}
+a { color: inherit; text-decoration: none; }
 
-.glass-modal {
-    background: rgba(255, 255, 255, 0.85);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(255, 255, 255, 0.5);
-    border-radius: 1.5rem;
-}
-
-.glass-input {
-    background: rgba(255, 255, 255, 0.6) !important;
-    border: 1px solid rgba(255, 255, 255, 0.5) !important;
-    color: #333 !important;
-}
-
-.glass-input:focus {
-    background: rgba(255, 255, 255, 0.95) !important;
-    box-shadow: 0 0 0 0.25rem rgba(255, 140, 0, 0.25) !important;
-    border-color: var(--primary-orange, #ff8c00) !important;
-}
-
-/* Botones personalizados */
-.btn-orange {
-    background-color: var(--primary-orange, #ff8c00);
-    color: #fff;
-    border: none;
-    transition: all 0.3s ease;
-}
-
-.btn-orange:hover, .btn-orange:focus {
-    background-color: #e07b00;
-    color: #fff;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(255, 140, 0, 0.4);
-}
-
-/* Ajustes de Navbar Desktop */
-.custom-navbar {
-    padding: 0.8rem 2rem;
-    z-index: 1040;
-}
-
-/* Ajustes de Mobile Bottom Bar */
-.mobile-bottom-bar {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: var(--nav-mobile-height, 70px);
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    z-index: 1030;
-    padding-bottom: env(safe-area-inset-bottom);
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
-}
-
-.mobile-nav-item {
-    color: #495057;
-    text-decoration: none;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    font-size: 0.8rem;
-    font-weight: 500;
-    transition: all 0.3s ease;
-}
-
-.mobile-nav-item:hover, .mobile-nav-item:active {
-    color: var(--primary-orange, #ff8c00);
-    transform: translateY(-2px);
-}
-
-/* Botón Global Volver */
-.btn-global-back {
-    position: fixed;
-    bottom: calc(var(--nav-mobile-height, 70px) - 15px);
-    left: 20px;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background: rgba(255, 140, 0, 0.8);
-    backdrop-filter: blur(5px);
-    color: white;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    box-shadow: 0 4px 15px rgba(255, 140, 0, 0.4);
-    z-index: 1045;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-.btn-global-back:hover {
-    background: rgba(255, 140, 0, 1);
-    transform: scale(1.05);
-}
-
-/* Botón Global Crear (A la derecha) */
-.btn-global-add {
-    position: fixed;
-    bottom: calc(var(--nav-mobile-height, 70px) - 15px);
-    right: 20px;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background: rgba(255, 140, 0, 0.8);
-    backdrop-filter: blur(5px);
-    color: white;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    box-shadow: 0 4px 15px rgba(255, 140, 0, 0.4);
-    z-index: 1045;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    text-decoration: none;
-}
-.btn-global-add:hover {
-    background: rgba(255, 140, 0, 1);
-    transform: scale(1.05);
-}
-
-/* Logo de Sueños en Navbar Desktop */
-.logo-suenos-navbar {
-    height: 40px;
-    width: auto;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
+h1,h2,h3,h4,h5,h6 { font-weight: 700; letter-spacing: -0.02em; }
